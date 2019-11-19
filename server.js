@@ -1,13 +1,19 @@
-let app = require('express')();
+let express = require('express');
+let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
+let path = require('path');
+
+app.use(express.static(path.join(__dirname, '/public')))
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
+    res.sendFile(__dirname + '/public/index.html')
 });
 
+app.set('port', process.env.PORT || 3000);
 
-http.listen(3000, () => {
+
+http.listen(app.get('port'), () => {
     console.log('Listening on port *: 3000');
 });
 
